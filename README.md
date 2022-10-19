@@ -2,7 +2,10 @@
 
 Example template for developing with Vue 3 in Vite.
 
-The `components` folder
+The `components` folder contains 2 buttons with the same functionality
+but different syntax.
+
+The SampleButton is using <script setup> while BaseButton the setup() function.
 
 ## Project Setup
 
