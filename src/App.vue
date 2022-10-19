@@ -2,15 +2,28 @@
 import { ref } from 'vue'
 import BaseButton from './components/BaseButton.vue'
 
-let resultText = ref("No button(s) clicked")
+const resultLabel = ref("No button(s) clicked")
+let resultAText = 'Button A Clicked 0 times';
+let resultBText = 'Button B Clicked 0 times';
+let buttonAClickCount = 0;
+let buttonBClickCount = 0;
 
-function handleButton1Click(e: MouseEvent) {
-  console.log("Button Clicked", e)
-  resultText.value = "Button 1 Clicked"
+function handleButton1Click() {
+  buttonAClickCount++;
+  resultAText = `Button A Clicked ${buttonAClickCount} times`
+  resultLabel.value = resultAText;
 }
-function handleButton2lick(e: MouseEvent) {
-  console.log("Button 2 Clicked", e)
-  resultText.value = "Button 2 Clicked"
+function handleButtonBClick() {
+  buttonBClickCount++;
+  resultBText = `Button B Clicked ${buttonBClickCount} times`
+  resultLabel.value = resultBText
+}
+function handleButtonHover(e: MouseEvent, isHovering: Boolean) {
+  if ((e.target as Element).className. includes('selected')) {
+    resultLabel.value = isHovering ? "Button B is hovered" : resultBText
+  } else {
+    resultLabel.value = isHovering ? "Button A is hovered" : resultAText
+  }
 }
 </script>
 
@@ -18,22 +31,26 @@ function handleButton2lick(e: MouseEvent) {
   <header>Sample Code</header>
   <main>
     <base-button
-      @onClicked="handleButton1Click($event)"
+      @onClicked="handleButton1Click"
+      @mouseover="handleButtonHover($event, true)"
+      @mouseleave="handleButtonHover($event, false)"
     >
-      Button 1
+    Button A
     </base-button>
     <base-button
       :selected="true"
-      @onClicked="handleButton2lick($event)"
+      @onClicked="handleButtonBClick($event)"
+      @mouseover="handleButtonHover($event, true)"
+      @mouseleave="handleButtonHover($event, false)"
     >
-      Button 2
+    Button B
     </base-button>
     <base-button
       :disabled="true"
     >
-      Button 3
+    Button C
     </base-button>
-    <label class="results">{{ resultText }}</label>
+    <label class="results">{{ resultLabel }}</label>
   </main>
 </template>
 

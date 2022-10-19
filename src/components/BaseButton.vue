@@ -1,43 +1,50 @@
 <template>
-  <button
+    <button
     :disabled="disabled"
     :class="baseButtonStyle"
     @click="handleClick"
+    @mouseover="hoverCallback(true)"
+    @mouseleave="hoverCallback(false)"
   >
     <slot />
   </button>
 </template>
 
-<script setup lang="ts">
-import { computed } from 'vue'
-// import ButtonType from "@/types"
+<script lang="ts">
+import { defineComponent, computed } from 'vue'
 
-const props = defineProps({
-  selected: {
-    type: Boolean,
-    default: false
+export default defineComponent({
+  props: {
+    variant: {
+      type: String,
+      default: null
+    },
+    selected: {
+      type: Boolean,
+      default: false
+    },
+    disabled: {
+      type: Boolean,
+      default: false
+    }
   },
-  disabled: {
-    type: Boolean,
-    default: false
+  setup(props) {
+    const baseButtonStyle = computed(() => {
+    const selected = props.selected ? "selected" : "";
+    return `base-button ${selected}`;
+    })
+
+    return { baseButtonStyle }
   },
-  // type: {
-  //   type: String as PropType<ButtonType>,
-  //   default: ButtonType.button
-  // }
+  methods: {
+    handleClick(event: MouseEvent) {
+      this.$emit('onClicked', event)
+    },
+    hoverCallback(isHovering: Boolean) {
+      this.$emit('onHover', isHovering)
+    }
+  }
 })
-
-const emit = defineEmits(['onClicked'])
-
-function handleClick(event: MouseEvent) {
-  emit('onClicked', event)
-}
-
-const baseButtonStyle = computed(() => {
-  const selected = props.selected ? "selected" : "";
-  return `base-button ${selected}`;
-})
-
 </script>
 
 <style scoped>
@@ -55,15 +62,18 @@ const baseButtonStyle = computed(() => {
   font-family: Lato;
   color: #284e6f;
 }
+:hover {
+  opacity: 0.8;
+}
+:disabled {
+  color: white;
+  cursor: default;
+  pointer-events: none;
+}
 .selected {
   color: white;
   background-color: #5587f8;
   border: 1px solid #5c778e;
   font-size: 20px;
 }
-:disabled {
-  color: white;
-  cursor: default;
-}
-
 </style>
