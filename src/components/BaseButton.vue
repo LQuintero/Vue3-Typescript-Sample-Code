@@ -12,6 +12,9 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue'
+import type { PropType } from 'vue'
+
+import  ButtonType from '@/types/ButtonType'
 
 export default defineComponent({
   props: {
@@ -26,20 +29,25 @@ export default defineComponent({
     disabled: {
       type: Boolean,
       default: false
-    }
+    },
+    type: {
+      type: String as PropType<ButtonType>,
+      default: ButtonType.button
+  }
   },
-  setup(props) {
+  setup(props, { emit }) {
     const baseButtonStyle = computed(() => {
     const selected = props.selected ? "selected" : "";
     return `base-button ${selected}`;
     })
 
-    return { baseButtonStyle }
+    function handleClick(event: MouseEvent) {
+      emit('onClicked', event)
+    }
+    
+    return { baseButtonStyle, handleClick }
   },
   methods: {
-    handleClick(event: MouseEvent) {
-      this.$emit('onClicked', event)
-    },
     hoverCallback(isHovering: Boolean) {
       this.$emit('onHover', isHovering)
     }

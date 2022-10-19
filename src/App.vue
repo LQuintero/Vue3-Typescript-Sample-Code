@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import BaseButton from './components/BaseButton.vue'
+import SampleButton from './components/SampleButton.vue'
 
 const resultLabel = ref("No button(s) clicked")
 let resultAText = 'Button A Clicked 0 times';
@@ -30,16 +31,16 @@ function handleButtonHover(e: MouseEvent, isHovering: Boolean) {
 <template>
   <header>Sample Code</header>
   <main>
-    <base-button
+    <sample-button
       @onClicked="handleButton1Click"
       @mouseover="handleButtonHover($event, true)"
       @mouseleave="handleButtonHover($event, false)"
     >
     Button A
-    </base-button>
+    </sample-button>
     <base-button
       :selected="true"
-      @onClicked="handleButtonBClick($event)"
+      @onClicked="handleButtonBClick"
       @mouseover="handleButtonHover($event, true)"
       @mouseleave="handleButtonHover($event, false)"
     >
@@ -65,8 +66,9 @@ main {
   margin: 12px;
 }
 .results {
-  margin-left: 20px;
+  margin-left: 55px;
   padding: 10px;
+  display: block;
 }
 </style>
 
