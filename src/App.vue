@@ -9,7 +9,7 @@ let resultBText = 'Button B Clicked 0 times';
 let buttonAClickCount = 0;
 let buttonBClickCount = 0;
 
-function handleButton1Click() {
+function handleButtonAClick() {
   buttonAClickCount++;
   resultAText = `Button A Clicked ${buttonAClickCount} times`
   resultLabel.value = resultAText;
@@ -32,7 +32,7 @@ function handleButtonHover(e: MouseEvent, isHovering: Boolean) {
   <header>Sample Code</header>
   <main>
     <sample-button
-      @onClicked="handleButton1Click"
+      @onClicked="handleButtonAClick"
       @mouseover="handleButtonHover($event, true)"
       @mouseleave="handleButtonHover($event, false)"
     >
